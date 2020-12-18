@@ -617,10 +617,8 @@ class Bagl:
             for i in range(10, 10 + color_size, 4):
                 color = int.from_bytes(data[i:i+4], byteorder='little')
                 colors.append(color)
-            bitmap = data[10+color_size:]
-
-            self.hal_draw_bitmap_within_rect(x, y, w, h, colors, bpp, bitmap)
-
+            bitmap = data[10 + color_size:]
+            self.hal_draw_bitmap_within_rect(x, y, w, h, colors, bpp, bitmap=bitmap)
         else:
             bitmap = data[1:]
 
