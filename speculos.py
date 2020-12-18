@@ -127,13 +127,24 @@ def run_qemu(s1: socket.socket, s2: socket.socket, args: argparse.Namespace) -> 
         sys.exit(1)
     sys.exit(0)
 
+
 def setup_logging(args):
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s.%(msecs)03d:%(name)s: %(message)s', datefmt='%H:%M:%S')
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s.%(msecs)03d:%(name)s: %(message)s",
+        datefmt="%H:%M:%S",
+    )
 
     for arg in args.log_level:
         if ":" not in arg:
-            logging.getLogger("speculos").error(f"invalid --log argument {arg}")
-            sys.exit(1)
+            if arg not in ["DEBUG", "INFO", "WARNING", "ERROR"]:
+                logging.getLogger("speculos").error(f"invalid --log argument {arg}")
+                sys.exit(1)
+            else:
+                logging.getLogger("speculos").setLevel(arg)
+                logging.getLogger("root").setLevel(arg)
+                continue
+
         name, level = arg.split(":", 1)
         logger = logging.getLogger(name)
         try:
