@@ -1,6 +1,6 @@
 from typing import Any, List, Union, Tuple, Mapping, Optional
 from dataclasses import dataclass
-from functools import lru_cache as cache
+from functools import cache
 import string
 import uuid
 import PIL.Image
