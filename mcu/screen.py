@@ -116,7 +116,7 @@ class App(QMainWindow):
         self.m.move(self.box_position_x * display.pixel_size, self.box_position_y * display.pixel_size)
         self.m.resize(self.width * display.pixel_size, self.height * display.pixel_size)
 
-        self.screen = Screen(self, display, server, record_frames=record_frames)
+        self.screen = Screen(self, display, server)
 
         self.setWindowIcon(QIcon('mcu/icon.png'))
 
@@ -171,11 +171,11 @@ class App(QMainWindow):
         settings.setValue("window_y", self.pos().y())
 
 class Screen(Display):
-    def __init__(self, app: App, display: DisplayArgs, server: ServerArgs, record_frames=None) -> None:
+    def __init__(self, app: App, display: DisplayArgs, server: ServerArgs) -> None:
         self.app = app
         super().__init__(display, server)
         self._init_notifiers(server)
-        self.bagl = bagl.Bagl(app.m, MODELS[display.model].screen_size, record_frames=record_frames)
+        self.bagl = bagl.Bagl(app.m, MODELS[display.model].screen_size, record_frames=display.record_frames)
         self.seph = server.seph
 
     def klass_can_read(self, klass, s):

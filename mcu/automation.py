@@ -5,6 +5,7 @@ import os
 import pkg_resources
 import re
 
+
 class Automation:
     def __init__(self, document):
         self.logger = logging.getLogger("automation")
@@ -49,7 +50,7 @@ class Automation:
                 if not condition:
                     continue
 
-            if not "actions" in rule:
+            if "actions" not in rule:
                 self.logger.warning(f'missing "actions" key for rule {action}')
                 continue
 

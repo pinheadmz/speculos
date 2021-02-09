@@ -177,10 +177,11 @@ class Bagl:
             if height == 0:
                 break
 
-    def compute_line_width(self, font_id, width, text, text_encoding):
+    @staticmethod
+    def compute_line_width(font_id, width, text, text_encoding):
         font = bagl_font.get(font_id)
         if not font:
-            self.logger.error("font not found")
+            logging.getLogger("bagl").error("font not found")
             return 0
 
         xx = 0
