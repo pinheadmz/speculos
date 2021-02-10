@@ -1,9 +1,12 @@
 from typing import Any, List, Union, Tuple, Mapping, Optional
 from dataclasses import dataclass
-from functools import cache
+import functools
 import string
 import uuid
-import PIL.Image
+try:
+    import PIL.Image
+except ImportError:
+    pass
 
 
 from . import bagl_font
@@ -25,6 +28,18 @@ Char = str  # a single character string (chars are 1-char strings in Python)
 __FONT_MAP = {}
 
 DISPLAY_CHARS = string.ascii_letters + string.digits + string.punctuation
+
+
+def cache_font(f):
+    __font_char_cache = {}
+
+    @functools.wraps(f)
+    def wrapper(byte_string: bytes):
+        if byte_string not in cache:
+            __font_char_cache[byte_string] = f(byte_string)
+        return __font_char_cache[byte_string]
+    return wrapper
+
 
 
 @dataclass
@@ -80,7 +95,7 @@ def framebuffer_pixels_to_screen(fb_pixels: FrameBuffer, model="nanox") -> Scree
     return screen
 
 
-def save_fb_to_image(fb) -> PIL.Image:
+def save_fb_to_image(fb) -> "PIL.Image":
     return dump_nanox_screen_to_png(framebuffer_pixels_to_screen(fb))
 
 
@@ -157,7 +172,7 @@ def _get_font_map(font: bagl_font.Font) -> Mapping[Char, BitMapChar]:
     return font_map
 
 
-@cache
+@cache_font
 def find_char_from_bitmap(bitmap: BitMap):
     """
      Find a character from a bitmap
