@@ -131,14 +131,14 @@ class TestBtcTestnet:
         data, status = app.exchange(packet)
         assert status == 0x9000
 
-#
-# class TestNanoXAutomation(TestBtc):
-#     """Tests for NanoX Automation."""
-#
-#     def test_nanox_automation(self, app):
-#         args = [
-#             "--automation",
-#             TestBtc.get_automation_path(f"boilerplate_{app.model}.json"),
-#         ]
-#         app.run(args=args)
-#         app.stop()
+
+class TestNanoXAutomation(TestBtc):
+    """Tests for NanoX Automation."""
+
+    def test_nanox_automation(self, app):
+        args = [
+            "--automation",
+            TestBtc.get_automation_path(f"boilerplate_{app.model}.json"),
+        ]
+        app.run(args=args)
+        app.stop()

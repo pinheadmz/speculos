@@ -1,0 +1,9 @@
+{
+    "version": 1,
+    "rules": [
+        {
+            "text": "Boilerplate is ready",
+            "actions": []
+        }
+    ]
+}
