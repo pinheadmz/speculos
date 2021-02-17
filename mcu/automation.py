@@ -13,8 +13,11 @@ class Automation:
 
         if document.startswith("file:"):
             path = document[5:]
-            with open(path) as fp:
-                self.json = json.load(fp)
+            try:
+                with open(path) as fp:
+                    self.json = json.load(fp)
+            except OSError:
+                logging.exception(f"could not open file {fp.name}")
         else:
             self.json = json.loads(document)
         self.validate()
